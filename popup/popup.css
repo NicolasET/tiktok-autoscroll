@@ -1,0 +1,62 @@
+:root {
+  --bg: #fff;
+  --fg: #161823;
+  --muted: #6b6d76;
+  --line: #e7e8ec;
+  --accent: #6366f1;
+  --track: #c9cad1;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #121212; --fg: #f1f1f2; --muted: #9a9ba3; --line: #2a2b31; --track: #45464d; }
+}
+* { box-sizing: border-box; }
+body {
+  width: 280px;
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--bg);
+  color: var(--fg);
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+header { display: flex; align-items: center; justify-content: space-between; }
+h1 { font-size: 15px; margin: 0; }
+.muted { color: var(--muted); }
+
+.counter {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 14px 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px;
+}
+.num { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.counter button {
+  border: 1px solid var(--line); background: transparent; color: var(--fg);
+  border-radius: 8px; padding: 6px 10px; cursor: pointer; font: inherit;
+}
+.counter button:hover { border-color: var(--accent); color: var(--accent); }
+
+.opts { display: grid; gap: 10px; }
+.row { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.row input[type="number"] {
+  width: 56px; padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px;
+  background: transparent; color: var(--fg); font: inherit; text-align: right;
+}
+
+.switch { position: relative; display: inline-block; width: 34px; height: 20px; flex: none; }
+.switch.big { width: 42px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.slider {
+  position: absolute; inset: 0; border-radius: 999px; background: var(--track);
+  transition: background 0.15s; cursor: pointer;
+}
+.slider::before {
+  content: ""; position: absolute; left: 2px; top: 2px; border-radius: 50%; background: #fff;
+  width: 16px; height: 16px; transition: transform 0.15s;
+}
+.switch.big .slider::before { width: 20px; height: 20px; }
+.switch input:checked + .slider { background: var(--accent); }
+.switch input:checked + .slider::before { transform: translateX(14px); }
+.switch.big input:checked + .slider::before { transform: translateX(18px); }
+.switch input:focus-visible + .slider { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+footer { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 12px; }
+kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 1px 4px; }
+a { color: var(--accent); }

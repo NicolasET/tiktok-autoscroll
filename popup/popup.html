@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Autoscroll for TikTok</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>Autoscroll</h1>
+    <label class="switch big">
+      <input type="checkbox" id="enabled">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <section class="counter">
+    <div>
+      <div class="num" id="watchedCount">0</div>
+      <div class="muted">videos vistos</div>
+    </div>
+    <button id="reset" type="button">Reiniciar</button>
+  </section>
+
+  <section class="opts">
+    <label class="row"><span>Saltar LIVEs</span>
+      <span class="switch"><input type="checkbox" id="skipLive"><span class="slider"></span></span></label>
+    <label class="row"><span>Saltar anuncios</span>
+      <span class="switch"><input type="checkbox" id="skipAds"><span class="slider"></span></span></label>
+    <label class="row"><span>Pausar al interactuar</span>
+      <span class="switch"><input type="checkbox" id="pauseOnInteract"><span class="slider"></span></span></label>
+    <label class="row"><span>Botón flotante</span>
+      <span class="switch"><input type="checkbox" id="showFloating"><span class="slider"></span></span></label>
+    <label class="row"><span>Fotos: avanzar tras (s)</span>
+      <input type="number" id="photoSeconds" min="0" max="120" step="1"></label>
+  </section>
+
+  <footer class="muted">
+    Atajo: <kbd id="shortcut">Alt+Shift+S</kbd> ·
+    <a href="#" id="editShortcut">cambiar</a>
+  </footer>
+
+  <script src="../src/defaults.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
