@@ -97,6 +97,12 @@ export class AutoscrollController implements PlaybackListener {
     this.deps.navigation.observeActive(this.deps.feed.activeItem()?.id ?? null);
   }
 
+  /** The user moved the feed themselves: their move replaces whatever we were about to do. */
+  onUserNavigation(): void {
+    if (this.request) this.deps.log('user navigated, dropping', this.request.reason);
+    this.cancel();
+  }
+
   /** Drops the pending advance, if any. */
   cancel(): void {
     this.request = null;

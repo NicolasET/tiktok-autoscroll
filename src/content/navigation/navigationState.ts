@@ -5,6 +5,10 @@ export interface NavigationTiming {
   readonly advanceTimeoutMs: number;
   /** Keeps the advance "in flight" this long after the next item shows up. */
   readonly arrivalGuardMs: number;
+  /** After the user moves the feed, wait this long before moving it on our own. */
+  readonly userSettleMs: number;
+  /** The feed counts as moving until this long after its last scroll event. */
+  readonly scrollSettleMs: number;
 }
 
 interface Advance {
@@ -13,9 +17,11 @@ interface Advance {
   arrivedAt: number | null;
 }
 
-/** Timeline of feed moves: the navigator records them and every guard reads them. */
+/** Timeline of feed moves: the navigator and the user monitor record them, every guard reads them. */
 export class NavigationState {
   private advance: Advance | null = null;
+  private lastUserNavigationAt = Number.NEGATIVE_INFINITY;
+  private lastScrollAt = Number.NEGATIVE_INFINITY;
 
   constructor(
     private readonly clock: Clock,
@@ -46,5 +52,21 @@ export class NavigationState {
       return false;
     }
     return true;
+  }
+
+  recordUserNavigation(): void {
+    this.lastUserNavigationAt = this.clock.now();
+  }
+
+  userNavigatedRecently(): boolean {
+    return this.clock.now() - this.lastUserNavigationAt < this.timing.userSettleMs;
+  }
+
+  recordScroll(): void {
+    this.lastScrollAt = this.clock.now();
+  }
+
+  isScrolling(): boolean {
+    return this.clock.now() - this.lastScrollAt < this.timing.scrollSettleMs;
   }
 }

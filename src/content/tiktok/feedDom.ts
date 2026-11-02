@@ -49,6 +49,12 @@ export class FeedDom {
     return target instanceof Element && target.closest(SELECTORS.playerArea) !== null;
   }
 
+  /** The element (or document) whose scrolling moves the feed between items. */
+  isFeedScroller(target: EventTarget | null): boolean {
+    if (target instanceof Document) return true;
+    return target instanceof Element && target.querySelector(SELECTORS.mediaCard) !== null;
+  }
+
   commentsOpen(): boolean {
     const viewportHeight = this.viewportHeight();
     return [...this.doc.querySelectorAll(SELECTORS.comments)].some((el) =>

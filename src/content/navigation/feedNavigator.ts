@@ -21,11 +21,12 @@ export class FeedNavigator {
   /**
    * Moves to the item after `itemId`. Idempotent: if the feed already left that item
    * (TikTok or the user moved it), nothing happens, so one request can never skip two items.
+   * While the feed is still moving (our advance, the user's, any scroll) it waits instead.
    */
   advanceFrom(itemId: string, reason: string): AdvanceOutcome {
     const active = this.feed.activeItem();
     if (active?.id !== itemId) return 'stale';
-    if (this.state.isAdvancing()) return 'busy';
+    if (this.isFeedMoving()) return 'busy';
 
     for (const strategy of this.strategies) {
       if (strategy.tryAdvance(active)) {
@@ -35,5 +36,11 @@ export class FeedNavigator {
       }
     }
     return 'busy';
+  }
+
+  private isFeedMoving(): boolean {
+    return (
+      this.state.isAdvancing() || this.state.userNavigatedRecently() || this.state.isScrolling()
+    );
   }
 }
