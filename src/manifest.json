@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Autoscroll for TikTok",
   "description": "Automatically moves to the next TikTok web video when the current one ends. Skips LIVEs and ads. Not affiliated with TikTok.",
+  "minimum_chrome_version": "120",
   "permissions": ["storage"],
   "host_permissions": ["https://www.tiktok.com/*"],
   "background": {

@@ -4,6 +4,7 @@ import type { InteractionSource } from './interaction/interactionTracker';
 import type { FeedNavigator } from './navigation/feedNavigator';
 import type { SettingsCache } from './settingsCache';
 import type { FeedDom } from './tiktok/feedDom';
+import type { NativeAutoscrollProbe } from './tiktok/nativeAutoscrollProbe';
 import type { LayoutAwareTraitsReader } from './tiktok/traits';
 
 /** Console helpers, reachable as window.__tas when the bundle is pasted into DevTools. */
@@ -29,6 +30,7 @@ export interface DebugHandleDeps {
   readonly navigator: FeedNavigator;
   readonly controller: AutoscrollController;
   readonly interaction: InteractionSource;
+  readonly native: NativeAutoscrollProbe;
 }
 
 export function createDebugHandle(deps: DebugHandleDeps): DebugHandle {
@@ -50,6 +52,7 @@ export function createDebugHandle(deps: DebugHandleDeps): DebugHandle {
         layout: deps.traits.layout(),
         activeItem: item?.id ?? null,
         traits: item ? deps.traits.read(item) : null,
+        nativeAutoscroll: deps.native.isActive(),
         interacting: deps.interaction.isInteracting(),
         commentsOpen: deps.feed.commentsOpen(),
       };

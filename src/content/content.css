@@ -49,6 +49,10 @@
   background: #f5b301;
   box-shadow: 0 0 0 3px rgba(245, 179, 1, 0.25);
 }
+#tas-fab.tas-native .tas-dot {
+  background: #25f4ee;
+  box-shadow: 0 0 0 3px rgba(37, 244, 238, 0.25);
+}
 
 #tas-fab .tas-count {
   min-width: 18px;

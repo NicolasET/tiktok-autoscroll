@@ -26,7 +26,12 @@ export const SELECTORS = {
 export const CINEMA_SELECTORS = {
   overlay: '[data-e2e="anchoring-chrome-host"]',
   creatorIdentity: '[data-e2e="cinema-creator-identity"]',
+  /** TikTok's own "Pasar automáticamente" switch. */
+  nativeAutoscrollSwitch: 'input[name="cinema-mode-autoscroll"]',
 } as const;
+
+/** localStorage flag behind TikTok's autoscroll ("1" = on). Every layout honours it. */
+export const NATIVE_AUTOSCROLL_STORAGE_KEY = 'auto_scroll';
 
 /** The overlay's "more" button names the video the overlay is currently showing. */
 export const CINEMA_OVERLAY_ITEM_ID_ATTRIBUTE = 'data-more-menu-item-id';

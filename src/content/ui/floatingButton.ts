@@ -18,6 +18,13 @@ const PRESENTATION: Readonly<Record<AutoscrollMode, ModePresentation>> = {
   off: { label: 'Auto off', className: null, title: DEFAULT_TITLE },
   on: { label: 'Auto on', className: 'tas-on', title: DEFAULT_TITLE },
   waiting: { label: 'En espera', className: 'tas-wait', title: DEFAULT_TITLE },
+  native: {
+    label: 'TikTok auto',
+    className: 'tas-native',
+    title:
+      'El autoscroll de TikTok ("Pasar automáticamente") está activo, así que la extensión ' +
+      'queda en pausa. Apágalo para que vuelva a funcionar.',
+  },
 };
 
 const STATE_CLASSES = Object.values(PRESENTATION).flatMap((p) =>

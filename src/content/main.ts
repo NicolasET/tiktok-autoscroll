@@ -23,7 +23,9 @@ import { SettingsCache } from './settingsCache';
 import { CinemaTraitsReader } from './tiktok/cinemaTraitsReader';
 import { FeedDom } from './tiktok/feedDom';
 import { LegacyTraitsReader } from './tiktok/legacyTraitsReader';
+import { TikTokNativeAutoscrollProbe } from './tiktok/nativeAutoscrollProbe';
 import { LayoutAwareTraitsReader } from './tiktok/traits';
+import { BadgeStateReporter, type BadgeMessageSender } from './ui/badgeStateReporter';
 import { FloatingButton } from './ui/floatingButton';
 
 const TICK_MS = 400;
@@ -31,9 +33,19 @@ const INTERACTION_WINDOW_MS = 2500;
 const WATCHED_AFTER_MS = 3000;
 const NAVIGATION_TIMING: NavigationTiming = { advanceTimeoutMs: 1500, arrivalGuardMs: 500 };
 
+/** chrome.* is missing when the bundle runs pasted in the page's DevTools console. */
+function extensionApi(): Partial<typeof chrome> | undefined {
+  return (globalThis as { chrome?: Partial<typeof chrome> }).chrome;
+}
+
 function createSettingsStore(): SettingsStore {
-  const api = (globalThis as { chrome?: Partial<typeof chrome> }).chrome;
-  return api?.storage ? new ChromeSettingsStore(api.storage) : new MemorySettingsStore();
+  const storage = extensionApi()?.storage;
+  return storage ? new ChromeSettingsStore(storage) : new MemorySettingsStore();
+}
+
+function createBadgeMessageSender(): BadgeMessageSender {
+  const runtime = extensionApi()?.runtime;
+  return runtime ? (message) => runtime.sendMessage(message) : () => Promise.resolve();
 }
 
 async function start(): Promise<void> {
@@ -58,6 +70,7 @@ async function start(): Promise<void> {
     log,
   );
   const interaction = new InteractionTracker(document, feed, clock, INTERACTION_WINDOW_MS);
+  const native = new TikTokNativeAutoscrollProbe(document, () => window.localStorage);
   const counter = new WatchCounter(WATCHED_AFTER_MS, () => {
     settings.update({ watchedCount: settings.current.watchedCount + 1 });
   });
@@ -68,6 +81,7 @@ async function start(): Promise<void> {
     navigator,
     navigation,
     interaction,
+    native,
     counter,
     clock,
     log,
@@ -75,6 +89,7 @@ async function start(): Promise<void> {
   const floatingButton = new FloatingButton(document, () => {
     settings.update({ enabled: !settings.current.enabled });
   });
+  const badge = new BadgeStateReporter(createBadgeMessageSender());
 
   controller.onStatus((status) => {
     floatingButton.render({
@@ -82,6 +97,7 @@ async function start(): Promise<void> {
       mode: status.mode,
       watchedCount: status.watchedCount,
     });
+    badge.report(status.mode);
   });
 
   await settings.load();
@@ -91,7 +107,15 @@ async function start(): Promise<void> {
   });
   interaction.start();
   new PlaybackEvents(document, feed).start(controller);
-  window.__tas = createDebugHandle({ settings, feed, traits, navigator, controller, interaction });
+  window.__tas = createDebugHandle({
+    settings,
+    feed,
+    traits,
+    navigator,
+    controller,
+    interaction,
+    native,
+  });
 
   controller.refresh();
   window.setInterval(() => {

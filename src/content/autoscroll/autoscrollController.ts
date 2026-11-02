@@ -6,6 +6,7 @@ import type { FeedNavigator } from '../navigation/feedNavigator';
 import type { NavigationState } from '../navigation/navigationState';
 import type { FinishReason, PlaybackListener } from '../playback/playbackEvents';
 import type { FeedDom, FeedItem } from '../tiktok/feedDom';
+import type { NativeAutoscrollProbe } from '../tiktok/nativeAutoscrollProbe';
 import type { TraitsReader } from '../tiktok/traits';
 import { skipReasonFor, type SkipReason } from './skipPolicy';
 import type { AutoscrollMode, AutoscrollStatus } from './status';
@@ -41,6 +42,7 @@ export interface AutoscrollControllerDeps {
   readonly navigator: Pick<FeedNavigator, 'advanceFrom'>;
   readonly navigation: Pick<NavigationState, 'observeActive'>;
   readonly interaction: InteractionSource;
+  readonly native: NativeAutoscrollProbe;
   readonly counter: Pick<WatchCounter, 'observe' | 'exclude'>;
   readonly clock: Clock;
   readonly log: Logger;
@@ -48,7 +50,7 @@ export interface AutoscrollControllerDeps {
 
 export type StatusListener = (status: AutoscrollStatus) => void;
 
-/** Decides when the feed should move on: video ended, photo timer, LIVE or ad on screen. */
+/** Decides when the feed should move on: video ended, photo timer, LIVE/ad on screen. */
 export class AutoscrollController implements PlaybackListener {
   private active: ActiveEntry | null = null;
   private request: AdvanceRequest | null = null;
@@ -114,12 +116,14 @@ export class AutoscrollController implements PlaybackListener {
     };
   }
 
+  /** TikTok's own autoscroll wins: while it is on, the extension doesn't advance or skip anything. */
   private isRunning(): boolean {
-    return this.deps.settings().enabled;
+    return this.deps.settings().enabled && !this.deps.native.isActive();
   }
 
   private mode(): AutoscrollMode {
-    if (!this.isRunning()) return 'off';
+    if (!this.deps.settings().enabled) return 'off';
+    if (this.deps.native.isActive()) return 'native';
     return this.request?.waitsForUser === true && this.isUserBusy() ? 'waiting' : 'on';
   }
 

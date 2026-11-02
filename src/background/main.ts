@@ -1,6 +1,7 @@
 // Service worker: seeds default settings, handles the keyboard shortcut and keeps the badge in sync.
 import { ChromeSettingsStore } from '../shared/chromeSettingsStore';
 import { TOGGLE_AUTOSCROLL_COMMAND } from '../shared/commands';
+import { isBadgeStateMessage } from '../shared/messages';
 import { BadgePresenter } from './badgePresenter';
 
 const store = new ChromeSettingsStore(chrome.storage);
@@ -41,4 +42,11 @@ chrome.commands.onCommand.addListener((command) => {
 
 store.subscribe((changes) => {
   if (changes.enabled !== undefined) reportErrors(badge.showGlobal(changes.enabled));
+});
+
+chrome.runtime.onMessage.addListener((message, sender) => {
+  const tabId = sender.tab?.id;
+  if (isBadgeStateMessage(message) && tabId !== undefined) {
+    reportErrors(badge.showForTab(tabId, message.state));
+  }
 });
