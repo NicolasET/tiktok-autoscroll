@@ -27,11 +27,16 @@ export default defineConfig(
     },
   },
   {
-    files: ['src/**/*.ts', 'tests/unit/**/*.ts', 'tests/e2e/fixtures/**/*.ts'],
+    files: [
+      'src/**/*.ts',
+      'tests/unit/**/*.ts',
+      'tests/fixtures/**/*.ts',
+      'tests/e2e/fake-tiktok/**/*.ts',
+    ],
     languageOptions: { globals: { ...globals.browser, chrome: 'readonly' } },
   },
   {
-    files: ['scripts/**/*.ts', 'tests/e2e/**/*.spec.ts', '*.config.ts'],
+    files: ['scripts/**/*.ts', 'tests/e2e/*.ts', 'tests/e2e/support/**/*.ts', '*.config.ts'],
     languageOptions: { globals: globals.node },
   },
   {

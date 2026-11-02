@@ -17,7 +17,8 @@
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["src", "tests/unit", "tests/e2e/fixtures"]
+  "include": ["src", "tests/unit", "tests/fixtures", "tests/e2e/fake-tiktok"]
 }

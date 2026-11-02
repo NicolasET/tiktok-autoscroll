@@ -3,9 +3,8 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "types": ["node"],
-    "allowImportingTsExtensions": true
+    "types": ["node", "chrome"]
   },
   "include": ["scripts", "tests/e2e", "*.config.ts"],
-  "exclude": ["tests/e2e/fixtures"]
+  "exclude": ["tests/e2e/fake-tiktok"]
 }
