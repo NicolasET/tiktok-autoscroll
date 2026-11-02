@@ -21,7 +21,7 @@ export class UserNavigationMonitor {
 
   constructor(
     private readonly win: Window,
-    private readonly feed: Pick<FeedDom, 'isInsidePlayer' | 'isFeedScroller'>,
+    private readonly feed: Pick<FeedDom, 'activeItem' | 'isInsidePlayer' | 'isFeedScroller'>,
     private readonly state: NavigationState,
     private readonly log: Logger,
     /** Ignores our own synthetic clicks and keys. Overridable for tests. */
@@ -90,7 +90,7 @@ export class UserNavigationMonitor {
       this.log('swallowed a manual "next": the feed is already advancing');
       return;
     }
-    this.state.recordUserNavigation();
+    this.state.recordUserNavigation(this.feed.activeItem()?.id ?? null);
     for (const listener of this.listeners) listener(direction);
   }
 

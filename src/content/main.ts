@@ -17,7 +17,7 @@ import {
   ScrollIntoViewStrategy,
 } from './navigation/advanceStrategies';
 import { FeedNavigator } from './navigation/feedNavigator';
-import { NavigationState, type NavigationTiming } from './navigation/navigationState';
+import { DEFAULT_NAVIGATION_TIMING, NavigationState } from './navigation/navigationState';
 import { UserNavigationMonitor } from './navigation/userNavigationMonitor';
 import { PlaybackEvents } from './playback/playbackEvents';
 import { SettingsCache } from './settingsCache';
@@ -32,13 +32,6 @@ import { FloatingButton } from './ui/floatingButton';
 const TICK_MS = 400;
 const INTERACTION_WINDOW_MS = 2500;
 const WATCHED_AFTER_MS = 3000;
-// TikTok can take ~2.5 s to move while it loads the next video, ignoring "next" meanwhile.
-const NAVIGATION_TIMING: NavigationTiming = {
-  advanceTimeoutMs: 3000,
-  arrivalGuardMs: 500,
-  userSettleMs: 1000,
-  scrollSettleMs: 150,
-};
 
 /** chrome.* is missing when the bundle runs pasted in the page's DevTools console. */
 function extensionApi(): Partial<typeof chrome> | undefined {
@@ -65,7 +58,7 @@ async function start(): Promise<void> {
     new CinemaTraitsReader(document),
     new LegacyTraitsReader(),
   ]);
-  const navigation = new NavigationState(clock, NAVIGATION_TIMING);
+  const navigation = new NavigationState(clock, DEFAULT_NAVIGATION_TIMING);
   const navigator = new FeedNavigator(
     feed,
     navigation,

@@ -88,8 +88,7 @@ export class AutoscrollController implements PlaybackListener {
       waitsForUser: true,
     };
     setTimeout(() => {
-      this.processRequest();
-      this.publish();
+      this.tick();
     }, ENDED_GRACE_MS);
   }
 
@@ -142,7 +141,7 @@ export class AutoscrollController implements PlaybackListener {
     this.deps.navigation.observeActive(item.id);
     if (this.active?.item.id !== item.id) {
       this.active = { item, since: now, lastAttemptAt: Number.NEGATIVE_INFINITY };
-      this.request = null;
+      if (this.request?.itemId !== item.id) this.request = null;
     }
     this.deps.counter.observe(item.id, now - this.active.since);
   }
