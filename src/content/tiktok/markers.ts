@@ -9,14 +9,27 @@ export interface MarkerScope {
 const LIVE_LABEL = /^(live|en vivo|en directo|ao vivo)$/i;
 const AD_LABEL =
   /^(patrocinado|sponsored|publicidad|anuncio|promocionado|promoted|ad|contenido patrocinado)$/i;
+/** Creator content paid by a brand. Not an ad: TikTok labels those separately. */
+const PAID_PARTNERSHIP_LABEL =
+  /^(colaboraci[oó]n de pago|paid partnership|colabora[cç][aã]o paga|parceria paga)$/i;
 const LIVE_E2E = /(^|-)live(-|$)/i;
-const AD_E2E = /(^|-)ad(-|$)|sponsor|promot/i;
+/** data-e2e="ad-tag" (label) and "ttam-ads-cta" (the ad's call-to-action button). */
+const AD_E2E = /(^|-)ads?(-|$)/i;
+/** data-e2e="sponsored-tag". */
+const PAID_PARTNERSHIP_E2E = /sponsor/i;
 const LIVE_PATH = /^\/(@[^/]+\/)?live(\/|$)/i;
 const LABEL_TAGS = 'span, div, p, strong, a';
 const MAX_LABEL_LENGTH = 24;
 
 export function hasAdMarker(scope: MarkerScope): boolean {
   return e2eValues(scope).some((value) => AD_E2E.test(value)) || hasLabel(scope, AD_LABEL);
+}
+
+export function hasPaidPartnershipMarker(scope: MarkerScope): boolean {
+  return (
+    e2eValues(scope).some((value) => PAID_PARTNERSHIP_E2E.test(value)) ||
+    hasLabel(scope, PAID_PARTNERSHIP_LABEL)
+  );
 }
 
 export function hasLiveMarker(scope: MarkerScope): boolean {

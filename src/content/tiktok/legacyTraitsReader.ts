@@ -1,5 +1,5 @@
 import type { FeedItem } from './feedDom';
-import { hasAdMarker, hasLiveMarker, type MarkerScope } from './markers';
+import { hasAdMarker, hasLiveMarker, hasPaidPartnershipMarker, type MarkerScope } from './markers';
 import { SELECTORS } from './selectors';
 import type { ItemTraits, LayoutTraitsReader } from './traits';
 
@@ -16,6 +16,10 @@ export class LegacyTraitsReader implements LayoutTraitsReader {
 
   read(item: FeedItem): ItemTraits {
     const scope: MarkerScope = { root: item.element, ignore: SELECTORS.description };
-    return { ad: hasAdMarker(scope), live: hasLiveMarker(scope) };
+    return {
+      ad: hasAdMarker(scope),
+      paidPartnership: hasPaidPartnershipMarker(scope),
+      live: hasLiveMarker(scope),
+    };
   }
 }

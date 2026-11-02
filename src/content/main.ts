@@ -20,6 +20,7 @@ import { FeedNavigator } from './navigation/feedNavigator';
 import { NavigationState, type NavigationTiming } from './navigation/navigationState';
 import { PlaybackEvents } from './playback/playbackEvents';
 import { SettingsCache } from './settingsCache';
+import { CinemaTraitsReader } from './tiktok/cinemaTraitsReader';
 import { FeedDom } from './tiktok/feedDom';
 import { LegacyTraitsReader } from './tiktok/legacyTraitsReader';
 import { LayoutAwareTraitsReader } from './tiktok/traits';
@@ -41,7 +42,10 @@ async function start(): Promise<void> {
   const settings = new SettingsCache(createSettingsStore());
 
   const feed = new FeedDom(document);
-  const traits = new LayoutAwareTraitsReader([new LegacyTraitsReader()]);
+  const traits = new LayoutAwareTraitsReader([
+    new CinemaTraitsReader(document),
+    new LegacyTraitsReader(),
+  ]);
   const navigation = new NavigationState(clock, NAVIGATION_TIMING);
   const navigator = new FeedNavigator(
     feed,

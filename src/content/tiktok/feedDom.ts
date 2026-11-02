@@ -46,7 +46,7 @@ export class FeedDom {
   }
 
   isInsidePlayer(target: EventTarget | null): boolean {
-    return target instanceof Element && target.closest(SELECTORS.mediaCard) !== null;
+    return target instanceof Element && target.closest(SELECTORS.playerArea) !== null;
   }
 
   commentsOpen(): boolean {

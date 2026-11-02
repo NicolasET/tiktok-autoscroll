@@ -2,6 +2,7 @@ import type { FeedItem } from './feedDom';
 
 export interface ItemTraits {
   readonly ad: boolean;
+  readonly paidPartnership: boolean;
   readonly live: boolean;
 }
 

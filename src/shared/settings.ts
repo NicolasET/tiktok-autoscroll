@@ -2,6 +2,8 @@ export interface Settings {
   readonly enabled: boolean;
   readonly skipLive: boolean;
   readonly skipAds: boolean;
+  /** Creator videos labelled "Colaboración de pago" (brand deals, not TikTok ads). */
+  readonly skipPaidPartnerships: boolean;
   readonly pauseOnInteract: boolean;
   readonly showFloating: boolean;
   /** Photo/carousel posts have no "ended" event, so they advance after this many seconds. 0 = never. */
@@ -15,6 +17,7 @@ export const DEFAULT_SETTINGS: Settings = Object.freeze({
   enabled: false,
   skipLive: true,
   skipAds: true,
+  skipPaidPartnerships: false,
   pauseOnInteract: true,
   showFloating: true,
   photoSeconds: 12,

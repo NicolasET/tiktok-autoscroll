@@ -12,6 +12,7 @@ const TOGGLES: readonly BooleanSettingKey[] = [
   'enabled',
   'skipLive',
   'skipAds',
+  'skipPaidPartnerships',
   'pauseOnInteract',
   'showFloating',
 ];
