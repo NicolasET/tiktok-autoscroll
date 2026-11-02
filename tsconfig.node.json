@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["scripts", "tests/e2e", "*.config.ts"],
+  "exclude": ["tests/e2e/fixtures"]
+}

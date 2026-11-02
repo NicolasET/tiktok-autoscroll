@@ -1,28 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Autoscroll for TikTok",
-  "version": "1.0.0",
   "description": "Automatically moves to the next TikTok web video when the current one ends. Skips LIVEs and ads. Not affiliated with TikTok.",
-  "permissions": [
-    "storage"
-  ],
-  "host_permissions": [
-    "https://www.tiktok.com/*"
-  ],
+  "permissions": ["storage"],
+  "host_permissions": ["https://www.tiktok.com/*"],
   "background": {
-    "service_worker": "src/background.js"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://www.tiktok.com/*"
-      ],
-      "js": [
-        "src/content.js"
-      ],
-      "css": [
-        "src/content.css"
-      ],
+      "matches": ["https://www.tiktok.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
       "run_at": "document_idle"
     }
   ],

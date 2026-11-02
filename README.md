@@ -36,11 +36,11 @@ icons/
 
 ## Selectors used (TikTok web, Oct 2026)
 
-| Purpose | Selector |
-|---|---|
-| Feed item | `[data-e2e="feed-video"]` |
-| Next button | `[data-e2e="feed-navigation-next"]` |
-| Ad | `[data-e2e="ad-tag"]`, "Publicidad" text |
+| Purpose       | Selector                                                                                |
+| ------------- | --------------------------------------------------------------------------------------- |
+| Feed item     | `[data-e2e="feed-video"]`                                                               |
+| Next button   | `[data-e2e="feed-navigation-next"]`                                                     |
+| Ad            | `[data-e2e="ad-tag"]`, "Publicidad" text                                                |
 | Comments open | `[data-e2e="comment-level-1"]`, `[data-e2e="comment-input"]`, `DivCommentListContainer` |
 
 If TikTok changes its DOM, update `SEL` in `src/content.js`.
