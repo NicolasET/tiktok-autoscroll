@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node", "chrome"]
+  },
+  "include": ["scripts", "tests/e2e", "*.config.ts"],
+  "exclude": ["tests/e2e/fake-tiktok"]
+}

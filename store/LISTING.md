@@ -1,6 +1,6 @@
 # Chrome Web Store listing — Autoscroll for TikTok
 
-Upload: `autoscroll-for-tiktok-1.0.0.zip` (manifest, src, popup, icons, LICENSE).
+Upload: `tiktok-autoscroll-1.1.0.zip`, created by `pnpm zip` (the built `dist/` folder).
 
 ## Store listing tab
 
@@ -9,15 +9,19 @@ Upload: `autoscroll-for-tiktok-1.0.0.zip` (manifest, src, popup, icons, LICENSE)
 **Category:** Productividad → Herramientas (or "Diversión")
 
 **Summary (≤132 chars)**
+
 > Pasa automáticamente al siguiente video de TikTok web cuando termina el actual. Salta LIVEs y anuncios.
 
 **Description**
+
 ```
 Autoscroll for TikTok avanza al siguiente video del feed de TikTok web en cuanto termina el actual, para que puedas ver sin tocar el mouse ni el teclado.
 
 Funciones
 • Avanza al terminar cada video (respeta la duración de cada uno, no usa un timer fijo).
-• Salta LIVEs y anuncios automáticamente (opcional).
+• Salta LIVEs y anuncios automáticamente (opcional). También puede saltar las colaboraciones de pago, si lo activas.
+• Respeta el autoscroll de TikTok: si activas "Pasar automáticamente", la extensión se hace a un lado y vuelve sola cuando lo apagas.
+• Tus clics mandan: si tocas "siguiente" justo cuando la extensión iba a avanzar, solo pasas un video.
 • Se pausa mientras interactúas: si mueves el mouse sobre el video, abres los comentarios o estás escribiendo, espera a que termines.
 • Publicaciones de fotos: avanza después de N segundos (configurable).
 • Contador de videos vistos, con botón para reiniciar.
@@ -32,6 +36,7 @@ Esta extensión no está afiliada, patrocinada ni respaldada por TikTok o ByteDa
 ```
 
 **Graphic assets**
+
 - Store icon 128×128: `icons/icon128.png`
 - Screenshot 1280×800: `store/screenshot-1280x800.png`
 - Small promo tile 440×280: `store/promo-tile-440x280.png`
@@ -42,15 +47,18 @@ Esta extensión no está afiliada, patrocinada ni respaldada por TikTok o ByteDa
 ## Privacy practices tab
 
 **Single purpose**
+
 > Avanzar automáticamente al siguiente video en el feed de TikTok web cuando el video actual termina.
 
 **Permission justification**
-- `storage`: Guarda localmente las preferencias del usuario (activado/desactivado, saltar LIVEs/anuncios, pausar al interactuar, botón flotante, segundos para fotos) y el contador de videos vistos.
-- Host permission `https://www.tiktok.com/*`: El content script necesita leer el estado del reproductor de video y hacer clic en el botón "siguiente" del feed de TikTok. No se ejecuta en ningún otro sitio.
+
+- `storage`: Guarda localmente las preferencias del usuario (activado/desactivado, saltar LIVEs/anuncios/colaboraciones de pago, pausar al interactuar, botón flotante, segundos para fotos) y el contador de videos vistos.
+- Host permission `https://www.tiktok.com/*`: El content script necesita leer el estado del reproductor de video (y si el autoscroll propio de TikTok está activo) y hacer clic en el botón "siguiente" del feed de TikTok. No se ejecuta en ningún otro sitio.
 
 **Remote code:** No, I am not using remote code.
 
 **Data usage:** Check none of the data types. Certify all three disclosures:
+
 - I do not sell or transfer user data to third parties, outside of the approved use cases
 - I do not use or transfer user data for purposes that are unrelated to my item's single purpose
 - I do not use or transfer user data to determine creditworthiness or for lending purposes
@@ -58,6 +66,7 @@ Esta extensión no está afiliada, patrocinada ni respaldada por TikTok o ByteDa
 **Privacy policy URL** (optional when no data is collected): https://github.com/NicolasET/tiktok-autoscroll#privacy
 
 ## Distribution tab
+
 - Visibility: Public
 - Regions: All regions
 
@@ -66,15 +75,19 @@ Esta extensión no está afiliada, patrocinada ni respaldada por TikTok o ByteDa
 ## English (optional second language)
 
 **Summary**
+
 > Automatically moves to the next TikTok web video when the current one ends. Skips LIVEs and ads.
 
 **Description**
+
 ```
 Autoscroll for TikTok moves your TikTok web feed to the next video as soon as the current one ends, so you can watch hands-free.
 
 Features
 • Advances when each video ends (follows each video's real length, not a fixed timer).
-• Skips LIVEs and ads automatically (optional).
+• Skips LIVEs and ads automatically (optional). It can also skip paid partnerships, if you turn that on.
+• Respects TikTok's own autoscroll: when "Auto scroll" is on, the extension steps aside and comes back by itself once you turn it off.
+• Your clicks win: pressing "next" right as the extension was about to advance moves just one video.
 • Pauses while you interact: moving the mouse over the video, opening comments or typing holds the advance until you're done.
 • Photo posts: advances after N seconds (configurable).
 • Watched-video counter with a reset button.
